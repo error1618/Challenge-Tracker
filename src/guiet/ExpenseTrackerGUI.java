@@ -15,7 +15,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     private DefaultListModel<String> expenseListModel;
     private JList<String> expenseList;
     private JComboBox<String> categoryDropdown;
-    private JButton addButton, removeButton, showTotalButton, manageCategoriesButton;
+    private JButton addBtn, removeBtn, showTotal, manageCategories;
     // Connect to the database
     static Connection conn = null;
     static Statement stmt;
@@ -97,10 +97,10 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
            dateField = new JTextField();
            amountField = new JTextField();
            categoryDropdown = new JComboBox<String>(cats);
-           addButton = new JButton("Add Expense");
-           removeButton = new JButton("Remove Expense");
-           showTotalButton = new JButton("Show Total");
-           manageCategoriesButton = new JButton("Manage Categories");
+           addBtn = new JButton("Add Expense");
+           removeBtn = new JButton("Remove Expense");
+           showTotal = new JButton("Show Total");
+           manageCategories = new JButton("Manage Categories");
 
            // initialize the list of expenses
            expenseListModel = new DefaultListModel<>();
@@ -121,20 +121,20 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
            inputPanel.add(categoryDropdown);
 
            JPanel buttonPanel = new JPanel(new GridLayout(1, 4));
-           buttonPanel.add(addButton);
-           buttonPanel.add(removeButton);
-           buttonPanel.add(showTotalButton);
-           buttonPanel.add(manageCategoriesButton);
+           buttonPanel.add(addBtn);
+           buttonPanel.add(removeBtn);
+           buttonPanel.add(showTotal);
+           buttonPanel.add(manageCategories);
 
            add(inputPanel, BorderLayout.NORTH);
            add(expenseListScrollPane, BorderLayout.CENTER);
            add(buttonPanel, BorderLayout.SOUTH);
 
            //action listeners for the buttons
-           addButton.addActionListener(this);
-           removeButton.addActionListener(this);
-           showTotalButton.addActionListener(this);
-           manageCategoriesButton.addActionListener(this);         
+           addBtn.addActionListener(this);
+           removeBtn.addActionListener(this);
+           showTotal.addActionListener(this);
+           manageCategories.addActionListener(this);         
        	   filllist();
          
     }
@@ -153,7 +153,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {  	
-    	if (e.getSource() == addButton) {
+    	if (e.getSource() == addBtn) {
         	String description = "";
         	String date = "1/1/1999";
         	Double amount = 0d;
@@ -229,7 +229,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
             
             
             // TODO: add expense to the list and update display
-        } else if (e.getSource() == removeButton) {
+        } else if (e.getSource() == removeBtn) {
             // TODO: remove expense from the list and update display
         	String selectedItem =  expenseList.getSelectedValue();
         	String[] exp = selectedItem.split("(Description:\\s+)|(\\s+Date:\\s+)|(\\s+Amount:\\s+)|(\\s+Category:\\s+)");
@@ -250,7 +250,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "doent exist", "Notification", JOptionPane.INFORMATION_MESSAGE);
             }
         	
-        } else if (e.getSource() == showTotalButton) {
+        } else if (e.getSource() == showTotal) {
         	String sql = "SELECT SUM(amount) FROM expn";
         	ResultSet rs = null;
 			try {
@@ -269,7 +269,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
 			}
         	
             // TODO: calculate and display total expense
-        } else if (e.getSource() == manageCategoriesButton) {
+        } else if (e.getSource() == manageCategories) {
             // TODO: open a dialog box to manage expense categories
         	//    categoryDropdown = new JComboBox<String>(new String[]{"CategoryA", "CategoryB", "CategoryC"});
         	String[] options = {"delete category", "add category"};
