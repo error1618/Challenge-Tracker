@@ -15,7 +15,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     private DefaultListModel<String> expenseListModel;
     private JList<String> expenseList;
     private JComboBox<String> categoryDropdown;
-    private JButton addBtn, removeBtn, showTotal, manageCategories;
+    private JButton addButton, removeButton, showTotalButton, manageCategoriesButton;
     static Connection conn = null;
     static Statement stmt;
     String[] cats  = {"CategoryA", "CategoryB", "CategoryC"};
@@ -91,10 +91,10 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
            dateField = new JTextField();
            amountField = new JTextField();
            categoryDropdown = new JComboBox<String>(cats);
-           addBtn = new JButton("Add Expense");
-           removeBtn = new JButton("Remove Expense");
-           showTotal = new JButton("Show Total");
-           manageCategories = new JButton("Manage Categories");
+           addButton = new JButton("Add Expense");
+           removeButton = new JButton("Remove Expense");
+           showTotalButton = new JButton("Show Total");
+           manageCategoriesButton = new JButton("Manage Categories");
 
            //  list of expenses
            expenseListModel = new DefaultListModel<>();
@@ -114,20 +114,20 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
            inputPanel.add(categoryDropdown);
 
            JPanel buttonPanel = new JPanel(new GridLayout(1, 4));
-           buttonPanel.add(addBtn);
-           buttonPanel.add(removeBtn);
-           buttonPanel.add(showTotal);
-           buttonPanel.add(manageCategories);
+           buttonPanel.add(addButton);
+           buttonPanel.add(removeButton);
+           buttonPanel.add(showTotalButton);
+           buttonPanel.add(manageCategoriesButton);
 
            add(inputPanel, BorderLayout.NORTH);
            add(expenseListScrollPane, BorderLayout.CENTER);
            add(buttonPanel, BorderLayout.SOUTH);
 
            //al buttons
-           addBtn.addActionListener(this);
-           removeBtn.addActionListener(this);
-           showTotal.addActionListener(this);
-           manageCategories.addActionListener(this);         
+           addButton.addActionListener(this);
+           removeButton.addActionListener(this);
+           showTotalButton.addActionListener(this);
+           manageCategoriesButton.addActionListener(this);         
        	   filllist();
          
     }
@@ -146,7 +146,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {  	
-    	if (e.getSource() == addBtn) {
+    	if (e.getSource() == addButton) {
         	String description = "";
         	String date = "1/1/1999";
         	Double amount = 0d;
@@ -221,7 +221,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
             amountField.setText("");        	
             
             
-        } else if (e.getSource() == removeBtn) {
+        } else if (e.getSource() == removeButton) {
         	String selectedItem =  expenseList.getSelectedValue();
         	String[] exp = selectedItem.split("(Description:\\s+)|(\\s+Date:\\s+)|(\\s+Amount:\\s+)|(\\s+Category:\\s+)");
             
@@ -240,7 +240,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "doent exist", "Notification", JOptionPane.INFORMATION_MESSAGE);
             }
         	
-        } else if (e.getSource() == showTotal) {
+        } else if (e.getSource() == showTotalButton) {
         	String sql = "SELECT SUM(amount) FROM expn";
         	ResultSet rs = null;
 			try {
@@ -257,7 +257,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
 				e1.printStackTrace();
 			}
         	
-        } else if (e.getSource() == manageCategories) {
+        } else if (e.getSource() == manageCategoriesButton) {
         	//    categoryDropdown = new JComboBox<String>(new String[]{"CategoryA", "CategoryB", "CategoryC"});
         	String[] options = {"delete category", "add category"};
         	int Option1 = JOptionPane.showOptionDialog(null, "Select an option", "Options",
