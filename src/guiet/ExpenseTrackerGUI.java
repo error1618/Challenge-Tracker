@@ -1,5 +1,5 @@
 package guiet;
-
+import org.hsqldb.server.Server;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -66,7 +66,8 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     	}catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Something went wrong !", "Notification", JOptionPane.INFORMATION_MESSAGE);    		
     	}
-        conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/", "SA", "");
+
+    	conn = DriverManager.getConnection("jdbc:hsqldb:file:mydb", "SA", "");
         stmt = conn.createStatement();    
         try {
         String sql = "CREATE TABLE expn (description varchar(500), ladate varchar(20) not null, amount DECIMAL (13,3),category varchar(15))"; //, CHECK (category IN ('CategoryA', 'CategoryB', 'CategoryC') ) ) ";
@@ -302,8 +303,8 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
-    	 try {    
-             ProcessBuilder pb = new ProcessBuilder("java", "-cp", "src/hsqldb.jar", "org.hsqldb.Server", "--database", "mydb");
+    	/* try {    
+    		 ProcessBuilder pb = new ProcessBuilder("java", "-cp", "./src/hsqldb.jar", "org.hsqldb.server.WebServer", "--database.0", "file:mydb", "--dbname.0", "xdb");
              pb.redirectErrorStream(true);
              Process p = pb.start();
              BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -314,8 +315,16 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
              p.waitFor();
          } catch (IOException | InterruptedException e) {
              e.printStackTrace();
-         }
-
+         } 
+    	 Server server = new Server();
+         server.setDatabaseName(0, "mydb");
+         server.setDatabasePath(0, "file:mydb");
+         server.start();*/
+    	Server server = new Server();
+    	server.setDatabaseName(0, "xdb");
+    	server.setDatabasePath(0, "file:mydb");
+    	server.start();
+         System.out.println("HSQLDB server is running...");
         DatabaseFunct();
         ExpenseTrackerGUI gui = new ExpenseTrackerGUI();
         gui.setVisible(true);
