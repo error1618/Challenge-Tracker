@@ -16,7 +16,6 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     private JList<String> expenseList;
     private JComboBox<String> categoryDropdown;
     private JButton addBtn, removeBtn, showTotal, manageCategories;
-    // Connect to the database
     static Connection conn = null;
     static Statement stmt;
     String[] cats  = {"CategoryA", "CategoryB", "CategoryC"};
@@ -45,13 +44,8 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     public  void addElement(String ele)
     {
        
-        // create a new array of size n+1
     	String[] newarr = new String[cats.length+1];
     
-        // insert the elements from
-        // the old array into the new array
-        // insert all elements till n
-        // then insert x at n+1
         for (int i = 0; i < cats.length; i++) {
             newarr[i] = cats[i];
         }
@@ -90,10 +84,9 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     
     	   setTitle("Expense Tracker");
            setSize(500, 400);
-           setLocationRelativeTo(null); // center the window
+           setLocationRelativeTo(null); 
            setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-           // initialize UI components
            descriptionField = new JTextField();
            dateField = new JTextField();
            amountField = new JTextField();
@@ -103,14 +96,13 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
            showTotal = new JButton("Show Total");
            manageCategories = new JButton("Manage Categories");
 
-           // initialize the list of expenses
+           //  list of expenses
            expenseListModel = new DefaultListModel<>();
            expenseList = new JList<>(expenseListModel);
            JScrollPane expenseListScrollPane = new JScrollPane(expenseList);
            expenseListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
            expenseList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-           // add UI components to the window
            JPanel inputPanel = new JPanel(new GridLayout(4, 2));
            inputPanel.add(new JLabel("Description:"));
            inputPanel.add(descriptionField);
@@ -131,7 +123,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
            add(expenseListScrollPane, BorderLayout.CENTER);
            add(buttonPanel, BorderLayout.SOUTH);
 
-           //action listeners for the buttons
+           //al buttons
            addBtn.addActionListener(this);
            removeBtn.addActionListener(this);
            showTotal.addActionListener(this);
@@ -229,9 +221,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
             amountField.setText("");        	
             
             
-            // TODO: add expense to the list and update display
         } else if (e.getSource() == removeBtn) {
-            // TODO: remove expense from the list and update display
         	String selectedItem =  expenseList.getSelectedValue();
         	String[] exp = selectedItem.split("(Description:\\s+)|(\\s+Date:\\s+)|(\\s+Amount:\\s+)|(\\s+Category:\\s+)");
             
@@ -240,7 +230,6 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
 			try {
 				rowsDeleted = stmt.executeUpdate(sql);
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
             if (rowsDeleted > 0) {
@@ -265,13 +254,10 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
 	                JOptionPane.showMessageDialog(null, "total = " + rs.getDouble(1), "Notification", JOptionPane.INFORMATION_MESSAGE);
 				}
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         	
-            // TODO: calculate and display total expense
         } else if (e.getSource() == manageCategories) {
-            // TODO: open a dialog box to manage expense categories
         	//    categoryDropdown = new JComboBox<String>(new String[]{"CategoryA", "CategoryB", "CategoryC"});
         	String[] options = {"delete category", "add category"};
         	int Option1 = JOptionPane.showOptionDialog(null, "Select an option", "Options",
@@ -303,23 +289,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
-    	/* try {    
-    		 ProcessBuilder pb = new ProcessBuilder("java", "-cp", "./src/hsqldb.jar", "org.hsqldb.server.WebServer", "--database.0", "file:mydb", "--dbname.0", "xdb");
-             pb.redirectErrorStream(true);
-             Process p = pb.start();
-             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-             String line;
-             while ((line = br.readLine()) != null) {
-                 System.out.println("im heeere"+line);
-             }
-             p.waitFor();
-         } catch (IOException | InterruptedException e) {
-             e.printStackTrace();
-         } 
-    	 Server server = new Server();
-         server.setDatabaseName(0, "mydb");
-         server.setDatabasePath(0, "file:mydb");
-         server.start();*/
+    
     	Server server = new Server();
     	server.setDatabaseName(0, "xdb");
     	server.setDatabasePath(0, "file:mydb");
