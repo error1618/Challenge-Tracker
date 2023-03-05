@@ -324,7 +324,7 @@ public class ExpenseTrackerGUI extends JFrame implements ActionListener {
     	server.setDatabaseName(0, "xdb");
     	server.setDatabasePath(0, "file:mydb");
     	server.start();
-         System.out.println("HSQLDB server is running...");
+         System.out.println("server is running");
         DatabaseFunct();
         ExpenseTrackerGUI gui = new ExpenseTrackerGUI();
         gui.setVisible(true);
